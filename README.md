@@ -10,7 +10,7 @@ Functions:
 
 (Unfortunately this functionality is not provided by the website itself.)
 
-<img src="screenshot.png" alt="Chrome Extension Screenshot" width="400"/>
+<img src="img/screenshot.png" alt="Chrome Extension Screenshot" width="400"/>
 
 
 ## Development
