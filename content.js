@@ -34,7 +34,8 @@ function removeArticles(articles) {
         const links = article.querySelectorAll('a[title]');
         for (let link of links) {
             const title = link.getAttribute('title');
-            if (forbiddenWords.some(word => title.includes(word))) {
+
+            if (forbiddenWords.some(word => title.toLowerCase().includes(word.toLowerCase()))) {
                 // Check if the ancestor of the link element with a class of "threadGrid" exists
                 const threadGrid = link.closest('.thread');
                 if (threadGrid) {
@@ -42,10 +43,12 @@ function removeArticles(articles) {
                     const article = threadGrid.closest('article');
                     console.log("removed article:")
                     console.log(link.title)
-                    article.remove();
+                    article.remove()
                     // TODO: instead of removing them, maybe hide them?
                     // TODO: sometimes doesnt work? but works when using search? at least for the first few entries... (maybe an issue with the MutationObserver)
                 }
+            } else {
+                console.log("clear title: " + title)
             }
         }
     }
