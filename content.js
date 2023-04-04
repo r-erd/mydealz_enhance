@@ -7,7 +7,7 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     console.log("sent runtime message getKeywords");
     forbiddenWords = keywords
     console.log("removed articles on pageload")
-    removeArticles(document.querySelectorAll('article'));
+    filterArticles()
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -16,10 +16,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         var keywords = request.keywords;
         console.log("Received keywords in content.js:", keywords);
         forbiddenWords = keywords
-
         // TODO: recheck all already loaded articles... (& reload page?)
     }
 });
+
+function filterArticles() {
+    removeArticles(document.querySelectorAll('article'));
+}
 
 function removeArticles(articles) {
     // console.log("called removeArticles! Checking for the following keywords:");
@@ -44,8 +47,6 @@ function removeArticles(articles) {
                     console.log("removed article:")
                     console.log(link.title)
                     article.remove()
-                    // TODO: instead of removing them, maybe hide them?
-                    // TODO: sometimes doesnt work? but works when using search? at least for the first few entries... (maybe an issue with the MutationObserver)
                 }
             } else {
                 console.log("clear title: " + title)
@@ -54,36 +55,5 @@ function removeArticles(articles) {
     }
 }
 
-// Remove articles when new ones are added dynamically
-const observer = new MutationObserver(function (mutations) {
-    try {
-        mutations.forEach(function (mutation) {
-            if (mutation.addedNodes.length > 0) {
-                const articles = Array.from(mutation.addedNodes)
-                    .flatMap(node => node.querySelectorAll('article'));
-                removeArticles(articles);
-                // console.log("checked new data...")
-            }
-        });
-    } catch {
-        
-    }
-
-});
-
-observer.observe(document, { childList: true, subtree: true });
-
-/* chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("Received message!")
-    if (request.action === 'getKeywords') {
-        sendResponse({ keywords: forbiddenWords });
-    } else if (request.action === 'addKeyword') {
-        forbiddenWords.push(request.keyword);
-    } else if (request.action === 'removeKeyword') {
-        const index = forbiddenWords.indexOf(request.keyword);
-        if (index !== -1) {
-            forbiddenWords.splice(index, 1);
-        }
-    }
-}); */
-
+const observer = new MutationObserver(filterArticles);
+observer.observe(document.body, { childList: true, subtree: true });
