@@ -1,18 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.set({ keywords: [] });
-
-/*     chrome.storage.local.get(['keywords'], (result) => {
-
-        chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            if (changeInfo.status === 'complete' && tab.url.startsWith('https://www.mydealz.de')) {
-                console.log("injected content.js")
-                chrome.scripting.executeScript({
-                    target: { tabId: tabId },
-                    files: ['content.js'],
-                });
-            }
-        });
-    }); */
 });
 
 
