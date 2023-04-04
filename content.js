@@ -9,37 +9,52 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     filterArticles()
 });
 
+chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
+    console.log("sent runtime message getOptions");
+    hideImages(request.options[0])
+    hideUserHtml(request.options[1])
+    console.log("removed images on pageload")
+});
 
-// FOR TESTING (currently unused)
-function hideImages(disableImages) {
+
+function hideImages(hideImages) {
     const main = document.querySelector('main');
 
-    if (disableImages) {
+    if (!hideImages) {
         main.classList.add('hide-threadGrid-image');
         console.log("hiding images")
     } else {
         main.classList.remove('hide-threadGrid-image');
-        console.log("unihiding images")
+        console.log("unhiding images")
     }
 }
 
-// FOR TESTING (currently no message is sent)
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.hideImages !== undefined) {
-        console.log("received updated hideImages")
-        const hideImages = message.hideImages;
-        console.log(`Hide Images state updated to ${hideImages}`);
-        hideImages(hideImages)
+function hideUserHtml(input) {
+    const main = document.querySelector('main');
+
+    if (input) {
+        main.classList.add('hide-userHtml');
+        console.log("hiding UserHtml")
+    } else {
+        main.classList.remove('hide-userHtml');
+        console.log("unhiding UserHtml")
     }
-});
+}
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+
     if (request.type === "KEYWORDS_RECEIVED") {
-        console.log("received updated keywords")
+        console.log(request.keywords)
         var keywords = request.keywords;
-        console.log("Received keywords in content.js:", keywords);
         forbiddenWords = keywords
         filterArticles()
+    }
+
+    if (request.type == 'OPTIONS_RECEIVED') {
+        console.log(request.options);
+        hideImages(request.options[0])
+        hideUserHtml(request.options[1])
+        //TODO: implement other options etc
     }
 });
 

@@ -17,17 +17,17 @@ main .cept-banner {
     display: none;
 } */
 
-/* 
+
 .hide-threadGrid-image .threadGrid-image {
     display: none
-} */
+}
 
 
-/* remove deal description preview 
-main .userHtml {
+/* remove deal description preview  */
+.hide-userHtml .userHtml {
     display: none;
 }
-*/
+
 
 /* remove deal author */
 main .c-author {

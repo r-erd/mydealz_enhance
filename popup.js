@@ -1,7 +1,23 @@
 // set focus to text input, for better usability
 document.getElementById("keywordInput").focus()
+updateKeywordsList();
+updateOptions();
 
 const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
+const hidePreviewCheckbox = document.getElementById('hide-preview-checkbox');
+
+function updateOptions() {
+    chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
+
+        if (options && options.length > 0) {
+            console.log("CJAIJAUSHIUASHIUHADS")
+            hideImagesCheckbox.checked = options[0];
+            console.log("set checkbox to : " + options[0])
+            hidePreviewCheckbox.checked = !options[1];
+            console.log("updated state of input-boxes")
+        }
+    });
+}
 
 function updateKeywordsList() {
     chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
@@ -42,6 +58,7 @@ function updateKeywordsList() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateKeywordsList();
+    updateOptions();
 
     const addKeywordButton = document.getElementById('add-keyword-button');
 
@@ -75,15 +92,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    chrome.storage.local.get('hideImages', ({ hideImages = false }) => {
-        hideImagesCheckbox.checked = !hideImages;
+    // Define a variable to store the state of the checkbox
+    let hideImages = true;
 
-        hideImagesCheckbox.addEventListener('click', () => {
-            const newHideImages = !hideImagesCheckbox.checked;
-            chrome.storage.local.set({ hideImages: newHideImages }, () => {
-                console.log(`Hide Images value set to ${newHideImages}`);
-                //TODO: add code to send message to content.js to add/remove CSS
-            });
-        });
+    // Retrieve the value of 'hideImages' from Chrome storage
+    chrome.storage.local.get('hideImages', ({ hideImages: storedHideImages = true }) => {
+        // Update the state of the checkbox based on the retrieved value
+        hideImagesCheckbox.checked = storedHideImages;
+        // Update the local variable with the retrieved value
+        hideImages = storedHideImages;
     });
+
+// Add an event listener for 'click' event on the checkbox
+    hideImagesCheckbox.addEventListener('click', () => {
+        // Update the value of 'hideImages' to the opposite of its current value
+        hideImages = !hideImages;
+        // Set the updated value of 'hideImages' to Chrome storage
+        chrome.storage.local.set({ hideImages }, () => {
+            // Callback function after setting the value in Chrome storage
+        });
+
+        // Send a message to the background script with the updated options
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, false] });
+    });
+
+
+    /*
+        // WORKS LIKE THIS
+        chrome.storage.local.get('hidePreview', ({ hidePreview = false }) => {
+            hidePreviewCheckbox.checked = hidePreview;
+    
+            hidePreviewCheckbox.addEventListener('click', () => {
+                const newHidePreview = !hidePreviewCheckbox.checked;
+                chrome.storage.local.set({ hidePreview: newHidePreview }, () => {
+                });
+                chrome.runtime.sendMessage(
+                    { action: 'setOptions', options: [false, newHidePreview] },
+                );
+            });
+        }); */
 });
