@@ -1,0 +1,69 @@
+/* remove category banner on top of page */
+main .groupPromo--bg {
+    display: none;
+}
+
+/* remove 99+ new deals badge from new, hot category */
+main .circle--s {
+    display: none;
+}
+
+/* remove message boxes between deals */
+main .cept-banner {
+    display: none;
+}
+
+/* main .threadGrid-image {
+    display: none;
+} */
+
+/* 
+.hide-threadGrid-image .threadGrid-image {
+    display: none
+} */
+
+
+/* remove deal description preview 
+main .userHtml {
+    display: none;
+}
+*/
+
+/* remove deal author */
+main .c-author {
+    display: none;
+}
+
+/* remove deal platform flag */
+main .js-flag-mobile-source-ico {
+    display: none;
+}
+
+main .btn--mode-primary {
+    background-color: black;
+}
+
+/* change color of store links */
+main .text--color-brandPrimary {
+    color: black;
+}
+
+main .thread-price {
+    color: black;
+}
+
+main .cept-last-page {
+    display: none;
+}
+
+main .footer {
+    display: none;
+}
+
+main .cept-vote-box {
+    border-width: 0px;
+}
+
+main .btn--mode-boxSec {
+    border-width: 0px;
+}

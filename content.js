@@ -1,6 +1,5 @@
 // Remove articles when the page loads
 console.log("injected");
-
 let forbiddenWords = []
 
 chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
@@ -10,9 +9,33 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     filterArticles()
 });
 
+
+// FOR TESTING (currently unused)
+function hideImages(disableImages) {
+    const main = document.querySelector('main');
+
+    if (disableImages) {
+        main.classList.add('hide-threadGrid-image');
+        console.log("hiding images")
+    } else {
+        main.classList.remove('hide-threadGrid-image');
+        console.log("unihiding images")
+    }
+}
+
+// FOR TESTING (currently no message is sent)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.hideImages !== undefined) {
+        console.log("received updated hideImages")
+        const hideImages = message.hideImages;
+        console.log(`Hide Images state updated to ${hideImages}`);
+        hideImages(hideImages)
+    }
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("received updated keywords")
     if (request.type === "KEYWORDS_RECEIVED") {
+        console.log("received updated keywords")
         var keywords = request.keywords;
         console.log("Received keywords in content.js:", keywords);
         forbiddenWords = keywords
@@ -25,9 +48,6 @@ function filterArticles() {
 }
 
 function removeArticles(articles) {
-    // console.log("called removeArticles! Checking for the following keywords:");
-    // console.log(forbiddenWords)
-
     for (let article of articles) {
         // Check if article is a valid DOM element
         if (article.nodeType !== Node.ELEMENT_NODE) {

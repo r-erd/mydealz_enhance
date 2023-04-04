@@ -1,4 +1,7 @@
+// set focus to text input, for better usability
 document.getElementById("keywordInput").focus()
+
+const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
 
 function updateKeywordsList() {
     chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
@@ -70,5 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             $myInput.value = ""
         }
+    });
+
+    chrome.storage.local.get('hideImages', ({ hideImages = false }) => {
+        hideImagesCheckbox.checked = !hideImages;
+
+        hideImagesCheckbox.addEventListener('click', () => {
+            const newHideImages = !hideImagesCheckbox.checked;
+            chrome.storage.local.set({ hideImages: newHideImages }, () => {
+                console.log(`Hide Images value set to ${newHideImages}`);
+                //TODO: add code to send message to content.js to add/remove CSS
+            });
+        });
     });
 });
