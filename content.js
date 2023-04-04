@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         var keywords = request.keywords;
         console.log("Received keywords in content.js:", keywords);
         forbiddenWords = keywords
-        // TODO: recheck all already loaded articles... (& reload page?)
+        filterArticles()
     }
 });
 
@@ -44,8 +44,7 @@ function removeArticles(articles) {
                 if (threadGrid) {
                     // Remove the article element that contains the threadGrid element
                     const article = threadGrid.closest('article');
-                    console.log("removed article:")
-                    console.log(link.title)
+                    console.log("removed article: " + link.title)
                     article.remove()
                 }
             } else {
