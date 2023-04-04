@@ -13,6 +13,7 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
     console.log("sent runtime message getOptions");
     hideImages(request.options[0])
     hideUserHtml(request.options[1])
+    hideCategories(request.options[2])
     console.log("removed images on pageload")
 });
 
@@ -20,7 +21,7 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
 function hideImages(hideImages) {
     const main = document.querySelector('main');
 
-    if (!hideImages) {
+    if (hideImages) {
         main.classList.add('hide-threadGrid-image');
         console.log("hiding images")
     } else {
@@ -41,6 +42,30 @@ function hideUserHtml(input) {
     }
 }
 
+function hideCategories(input) {
+    const main = document.querySelector('main');
+
+    if (input) {
+        main.classList.add('hide-groupPromo--bg');
+        console.log("hiding categories")
+    } else {
+        main.classList.remove('hide-groupPromo--bg');
+        console.log("unhiding categories")
+    }
+}
+
+function enableGreyscale(input) {
+    const body = document.body;
+
+    if (input) {
+        body.classList.add('greyscale');
+        console.log("enabled greyscale")
+    } else {
+        body.classList.remove('greyscale');
+        console.log("disabled greyscale")
+    }
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     if (request.type === "KEYWORDS_RECEIVED") {
@@ -54,6 +79,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log(request.options);
         hideImages(request.options[0])
         hideUserHtml(request.options[1])
+        hideCategories(request.options[2])
+        enableGreyscale(request.options[3])
         //TODO: implement other options etc
     }
 });

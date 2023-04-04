@@ -1,7 +1,29 @@
-/* remove category banner on top of page */
-main .groupPromo--bg {
+/* =============== NOT INCLUDED BELOW  =============== */
+/* remove category banner on top of page  */
+.hide-groupPromo--bg .groupPromo--bg {
     display: none;
 }
+
+/* removes deal images */
+.hide-threadGrid-image .threadGrid-image {
+    display: none
+}
+
+/* remove deal description preview   */
+.hide-userHtml .userHtml {
+    display: none;
+}
+
+.greyscale {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='saturate' values='0'/></filter></svg>#grayscale");
+}
+
+/* =============== INCLUDED SOON BELOW  =============== */
 
 /* remove 99+ new deals badge from new, hot category */
 main .circle--s {
@@ -13,24 +35,8 @@ main .cept-banner {
     display: none;
 }
 
-/* main .threadGrid-image {
-    display: none;
-} */
-
-
-.hide-threadGrid-image .threadGrid-image {
-    display: none
-}
-
-
-/* remove deal description preview  */
-.hide-userHtml .userHtml {
-    display: none;
-}
-
-
 /* remove deal author */
-main .c-author {
+ main .c-author {
     display: none;
 }
 
@@ -39,11 +45,13 @@ main .js-flag-mobile-source-ico {
     display: none;
 }
 
+/* =============== NOT INCLUDED BELOW  =============== */
+
+/* 
 main .btn--mode-primary {
     background-color: black;
 }
 
-/* change color of store links */
 main .text--color-brandPrimary {
     color: black;
 }
@@ -56,7 +64,7 @@ main .cept-last-page {
     display: none;
 }
 
-main .footer {
+ main .footer {
     display: none;
 }
 
@@ -66,4 +74,14 @@ main .cept-vote-box {
 
 main .btn--mode-boxSec {
     border-width: 0px;
+}
+*/
+
+/* Reset the filter for specific elements that should not be grayscale - currently unused */
+.colorful {
+    filter: none;
+    -webkit-filter: none;
+    -moz-filter: none;
+    -ms-filter: none;
+    -o-filter: none;
 }

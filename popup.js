@@ -5,6 +5,8 @@ updateOptions();
 
 const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
 const hidePreviewCheckbox = document.getElementById('hide-preview-checkbox');
+const hideCategoriesCheckbox = document.getElementById('hide-categories-checkbox');
+const removeColorsCheckbox = document.getElementById('remove-colors-checkbox');
 
 function updateOptions() {
     chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
@@ -92,43 +94,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Define a variable to store the state of the checkbox
+    // GET MOST RECENT STATE
     let hideImages = true;
+    let hidePreview = true;
+    let hideCategories = true;
+    let removeColors = true;
 
-    // Retrieve the value of 'hideImages' from Chrome storage
     chrome.storage.local.get('hideImages', ({ hideImages: storedHideImages = true }) => {
-        // Update the state of the checkbox based on the retrieved value
         hideImagesCheckbox.checked = storedHideImages;
-        // Update the local variable with the retrieved value
         hideImages = storedHideImages;
     });
 
-// Add an event listener for 'click' event on the checkbox
-    hideImagesCheckbox.addEventListener('click', () => {
-        // Update the value of 'hideImages' to the opposite of its current value
-        hideImages = !hideImages;
-        // Set the updated value of 'hideImages' to Chrome storage
-        chrome.storage.local.set({ hideImages }, () => {
-            // Callback function after setting the value in Chrome storage
-        });
-
-        // Send a message to the background script with the updated options
-        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, false] });
+    chrome.storage.local.get('hidePreview', ({ hidePreview: storedHidePreview = true }) => {
+        hidePreviewCheckbox.checked = storedHidePreview;
+        hidePreview = storedHidePreview;
     });
 
+    chrome.storage.local.get('hideCategories', ({ hideCategories: storedHideCategories = true }) => {
+        hideCategoriesCheckbox.checked = storedHideCategories;
+        hideCategories = storedHideCategories;
+    });
 
-    /*
-        // WORKS LIKE THIS
-        chrome.storage.local.get('hidePreview', ({ hidePreview = false }) => {
-            hidePreviewCheckbox.checked = hidePreview;
-    
-            hidePreviewCheckbox.addEventListener('click', () => {
-                const newHidePreview = !hidePreviewCheckbox.checked;
-                chrome.storage.local.set({ hidePreview: newHidePreview }, () => {
-                });
-                chrome.runtime.sendMessage(
-                    { action: 'setOptions', options: [false, newHidePreview] },
-                );
-            });
-        }); */
+    chrome.storage.local.get('removeColors', ({ removeColors: storedRemoveColors = true }) => {
+        removeColorsCheckbox.checked = storedRemoveColors;
+        removeColors = storedRemoveColors;
+    });
+
+    // LISTEN AND UPDATE STATE
+    hideImagesCheckbox.addEventListener('click', () => {
+        hideImages = !hideImages;
+        chrome.storage.local.set({ hideImages }, () => { });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+    });
+
+    hidePreviewCheckbox.addEventListener('click', () => {
+        hidePreview = !hidePreview;
+        chrome.storage.local.set({ hidePreview }, () => { });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+    });
+
+    hideCategoriesCheckbox.addEventListener('click', () => {
+        hideCategories = !hideCategories;
+        chrome.storage.local.set({ hideCategories }, () => { });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+    });
+
+    removeColorsCheckbox.addEventListener('click', () => {
+        removeColors = !removeColors;
+        chrome.storage.local.set({ removeColors }, () => { });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+    });
+
 });
