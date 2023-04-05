@@ -12,11 +12,11 @@ function updateOptions() {
     chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
 
         if (options && options.length > 0) {
-            console.log("CJAIJAUSHIUASHIUHADS")
             hideImagesCheckbox.checked = options[0];
-            console.log("set checkbox to : " + options[0])
-            hidePreviewCheckbox.checked = !options[1];
-            console.log("updated state of input-boxes")
+            hidePreviewCheckbox.checked = options[1];
+            hideCategoriesCheckbox.checked = options[2];
+            removeColorsCheckbox.checked = options[3];
+            console.log("updated inital state of input-boxes to: " + options)
         }
     });
 }
@@ -64,10 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const addKeywordButton = document.getElementById('add-keyword-button');
 
-    const $myInput = document.getElementById('keywordInput');
+    const keywordInput = document.getElementById('keywordInput');
 
-    $myInput.onkeydown = function (event) {
-        const newKeyword = $myInput.value
+    keywordInput.onkeydown = function (event) {
+        const newKeyword = keywordInput.value
         if (event.key === 'Enter') {
             if (newKeyword) {
                 chrome.runtime.sendMessage(
@@ -76,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         updateKeywordsList();
                     }
                 );
-                $myInput.value = ""
+                keywordInput.value = ""
             }
         }
     }
 
     addKeywordButton.addEventListener('click', () => {
-        const newKeyword = $myInput.value
+        const newKeyword = keywordInput.value
         if (newKeyword) {
             chrome.runtime.sendMessage(
                 { action: 'addKeyword', keyword: newKeyword },
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateKeywordsList();
                 }
             );
-            $myInput.value = ""
+            keywordInput.value = ""
         }
     });
 
