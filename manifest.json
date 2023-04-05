@@ -14,14 +14,15 @@
     "permissions": [
         "activeTab",
         "scripting",
-        "tabs",
-        "storage",
-        "webNavigation"
+        "storage"
     ],
     "content_scripts": [
         {
             "matches": [
                 "https://www.mydealz.de/*"
+            ],
+            "exclude_matches": [
+                "https://www.mydealz.de/deals/*"
             ],
             "js": [
                 "content.js"
@@ -32,7 +33,7 @@
         }
     ],
     "action": {
-        "default_title": "Click to filter",
+        "default_title": "Click to open options",
         "default_popup": "popup.html",
         "default_icon": {
             "16": "images/icon-16.png",
