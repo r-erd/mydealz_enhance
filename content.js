@@ -18,7 +18,6 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
         hideUserHtml(request.options[1])
         hideCategories(request.options[2])
         console.debug("set options on pageload")
-
     }
 });
 
@@ -107,11 +106,10 @@ function removeArticles() {
                 if (threadGrid) {
                     // Remove the article element that contains the threadGrid element
                     const article = threadGrid.closest('article');
-                    console.debug("removed article: " + title)
+                    console.info("removed article: " + title)
                     article.remove()
                 }
             } else {
-                console.debug("ok title: " + title)
             }
         }
     }
