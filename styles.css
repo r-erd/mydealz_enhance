@@ -26,25 +26,30 @@
 /* =============== INCLUDED SOON BELOW  =============== */
 
 /* remove 99+ new deals badge from new, hot category */
-main .circle--s {
+/* main .circle--s {
     display: none;
 }
+
+*/
 
 /* remove message boxes between deals */
-main .cept-banner {
+/* main .cept-banner {
     display: none;
 }
 
+*/
 /* remove deal author */
- main .c-author {
+/*  main .c-author {
     display: none;
 }
 
+*/
 /* remove deal platform flag */
-main .js-flag-mobile-source-ico {
+/* main .js-flag-mobile-source-ico {
     display: none;
 }
 
+*/
 /* =============== NOT INCLUDED BELOW  =============== */
 
 /* 
