@@ -11,12 +11,12 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
 
 chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
     console.debug("sent initial getOptions");
-
-    //FIX: this resulted in "request is undefined" error before introducing this if clause, so code below might never be executed
-    if (typeof request !== 'undefined') {
-        hideImages(request.options[0])
-        hideUserHtml(request.options[1])
-        hideCategories(request.options[2])
+    //BUG: this results in "options is undefined" error beause no response arrives
+    if (typeof options != "undefined") {
+        hideImages(options.options[0])
+        hideUserHtml(options.options[1])
+        hideCategories(options.options[2])
+        enableGreyscale(options.options[3])
         console.debug("set options on pageload")
     }
 });
