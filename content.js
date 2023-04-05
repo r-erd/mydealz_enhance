@@ -1,32 +1,37 @@
 // Remove articles when the page loads
-console.log("injected");
+console.debug("injected content.js mydealz_enhance");
 let forbiddenWords = []
 
 chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
-    console.log("sent runtime message getKeywords");
+    console.debug("sent initial getKeywords");
     forbiddenWords = keywords
-    console.log("removed articles on pageload")
-    filterArticles()
+    removeArticles()
+    console.debug("removed images on pageload")
 });
 
 chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
-    console.log("sent runtime message getOptions");
-    hideImages(request.options[0])
-    hideUserHtml(request.options[1])
-    hideCategories(request.options[2])
-    console.log("removed images on pageload")
+    console.debug("sent initial getOptions");
+
+    //FIX: this resulted in "request is undefined" error before introducing this if clause, so code below might never be executed
+    if (typeof request !== 'undefined') {
+        hideImages(request.options[0])
+        hideUserHtml(request.options[1])
+        hideCategories(request.options[2])
+        console.debug("set options on pageload")
+
+    }
 });
 
 
-function hideImages(hideImages) {
+function hideImages(input) {
     const main = document.querySelector('main');
 
-    if (hideImages) {
+    if (input) {
         main.classList.add('hide-threadGrid-image');
-        console.log("hiding images")
+        console.debug("hiding images")
     } else {
         main.classList.remove('hide-threadGrid-image');
-        console.log("unhiding images")
+        console.debug("showing images")
     }
 }
 
@@ -35,10 +40,10 @@ function hideUserHtml(input) {
 
     if (input) {
         main.classList.add('hide-userHtml');
-        console.log("hiding UserHtml")
+        console.debug("hiding UserHtml")
     } else {
         main.classList.remove('hide-userHtml');
-        console.log("unhiding UserHtml")
+        console.debug("showing UserHtml")
     }
 }
 
@@ -47,10 +52,10 @@ function hideCategories(input) {
 
     if (input) {
         main.classList.add('hide-groupPromo--bg');
-        console.log("hiding categories")
+        console.debug("hiding categories")
     } else {
         main.classList.remove('hide-groupPromo--bg');
-        console.log("unhiding categories")
+        console.debug("showing categories")
     }
 }
 
@@ -59,37 +64,33 @@ function enableGreyscale(input) {
 
     if (input) {
         body.classList.add('greyscale');
-        console.log("enabled greyscale")
+        console.debug("enabled greyscale")
     } else {
         body.classList.remove('greyscale');
-        console.log("disabled greyscale")
+        console.debug("disabled greyscale")
     }
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     if (request.type === "KEYWORDS_RECEIVED") {
-        console.log(request.keywords)
+        console.debug("received keywords: " + request.keywords)
         var keywords = request.keywords;
         forbiddenWords = keywords
-        filterArticles()
+        removeArticles()
     }
 
     if (request.type == 'OPTIONS_RECEIVED') {
-        console.log(request.options);
+        console.debug("received options: " + request.options);
         hideImages(request.options[0])
         hideUserHtml(request.options[1])
         hideCategories(request.options[2])
         enableGreyscale(request.options[3])
-        //TODO: implement other options etc
     }
 });
 
-function filterArticles() {
-    removeArticles(document.querySelectorAll('article'));
-}
-
-function removeArticles(articles) {
+function removeArticles() {
+    let articles = document.querySelectorAll('article')
     for (let article of articles) {
         // Check if article is a valid DOM element
         if (article.nodeType !== Node.ELEMENT_NODE) {
@@ -106,15 +107,15 @@ function removeArticles(articles) {
                 if (threadGrid) {
                     // Remove the article element that contains the threadGrid element
                     const article = threadGrid.closest('article');
-                    console.log("removed article: " + link.title)
+                    console.debug("removed article: " + title)
                     article.remove()
                 }
             } else {
-                console.log("clear title: " + title)
+                console.debug("ok title: " + title)
             }
         }
     }
 }
 
-const observer = new MutationObserver(filterArticles);
+const observer = new MutationObserver(removeArticles);
 observer.observe(document.body, { childList: true, subtree: true });
