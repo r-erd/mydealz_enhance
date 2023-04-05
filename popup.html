@@ -5,13 +5,29 @@
   <meta charset="UTF-8" />
   <title>mydealz enhance</title>
   <style>
+    .container {
+      min-height: 150px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 3px solid green;
+    }
+
+    .helptext {
+      font-size: small;
+      display: inline-block;
+      margin-top: 0;
+      margin-bottom: 0px;
+      text-align: right;
+      margin-left: 100px;
+    }
+
     .tooltip {
       position: relative;
       display: inline-block;
       font-size: x-small;
       border-bottom: 1px dotted black;
     }
-  
+
     .tooltip .tooltiptext {
       visibility: hidden;
       width: 120px;
@@ -21,7 +37,7 @@
       border-radius: 6px;
       padding: 5px 0;
       font-size: x-small;
-  
+
       /* Position the tooltip */
       position: absolute;
       z-index: 1;
@@ -29,12 +45,11 @@
       right: 105%;
       padding: 10px;
     }
-  
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
     }
-  </style>
-  <style>
+
     body {
       min-width: 300px;
       min-height: 150px;
@@ -50,6 +65,13 @@
       list-style: none;
     }
 
+    p {
+      display: inline-block;
+      font-size: medium;
+      margin-top: 0;
+      margin-bottom: 0px;
+    }
+
     li {
       display: flex;
       justify-content: space-between;
@@ -61,6 +83,19 @@
       margin-right: 10px;
     }
 
+    .textInput {
+      border-radius: 5px;
+      border: 0.2mm solid grey;
+      height: 20px;
+      width: fit-content;
+      min-width: 60px"
+
+    }
+
+    .checkbox {
+      margin-top: 10px;
+    }
+
     .button {
       padding: 5px 10px;
       border: 1px solid #ccc;
@@ -69,6 +104,7 @@
       cursor: pointer;
       color: white;
       margin-top: 10px;
+      margin-bottom: 0;
     }
 
     .button:hover {
@@ -79,48 +115,44 @@
 </head>
 
 <body>
-  <div style="min-height: 150px; border-radius: 10px; padding: 10px; border: 3px solid green;">
-
-  <p style="display: inline-block; font-size: medium; margin-top: 0; margin-bottom: 0px;">
-    mydealz-enhance
-  </p>
-  <div style="font-size: small; display: inline-block; margin-top: 0; margin-bottom: 0px; text-align: right; margin-left: 100px;" class="tooltip"> 
-        help
-        <span class="tooltiptext">
-          You can add keywords here. Deals containing the keyword in its title will be hidden. After adding a keyboard you can
-          click it to remove it from the list.
+  <div class="container">
+    <p>
+      mydealz_enhance
+    </p>
+    <div class="helptext tooltip">
+      help
+      <span class="tooltiptext">
+        You can add keywords here. Deals containing the keyword in its title will be hidden. After adding a keyboard you
+        can
+        click it to remove it from the list.
         </span>
-  </div>
-      <label>
-        <input style="margin-top: 10px;" type="checkbox" id="hide-images-checkbox">
-        Hide Images
+        </div>
+        <label>
+      <input class="checkbox" type="checkbox" id="hide-images-checkbox">
+      Hide Images
       </label>
       <br>
       <label>
-        <input style="margin-top: 10px;" type="checkbox" id="hide-preview-checkbox">
-        Hide Description-Preview
+      <input class="checkbox" type="checkbox" id="hide-preview-checkbox">
+      Hide Description-Preview
       </label>
       <br>
       <label>
-        <input style="margin-top: 10px;" type="checkbox" id="remove-colors-checkbox">
-        Black/White Mode
+      <input class="checkbox" type="checkbox" id="remove-colors-checkbox">
+      Black/White Mode
       </label>
       <br>
       <label>
-        <input style="margin-top: 10px;" type="checkbox" id="hide-categories-checkbox">
-        Hide Category-Banner
+      <input class="checkbox" type="checkbox" id="hide-categories-checkbox">
+      Hide Category-Banner
       </label>
       <br>
-      <label>
-        <input disabled="true" style="margin-top: 10px;" type="checkbox" id="autorefresh-checkbox">
-        Auto-Refresh (30s)
-      </label>
-  <h4>List of blocked keywords:</h4>
-  <ul id="keywords-list">
-  </ul>
-  <input id="keywordInput" type="text" style="border-radius: 5px; border: 0.2mm solid grey; height: 20px; width: fit-content; min-width: 60px">
-  <button style="margin-bottom: 0;" id="add-keyword-button" class="button">Add</button>
-  <script src="popup.js"></script>
+    <h4>List of blocked keywords:</h4>
+    <ul id="keywords-list">
+    </ul>
+    <input class="textInput" id="keywordInput" type="text">
+    <button id="add-keyword-button" class="button">Add</button>
+    <script src="popup.js"></script>
     </div>
 </body>
 
