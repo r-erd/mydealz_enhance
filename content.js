@@ -11,14 +11,13 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
 
 chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
     console.debug("sent initial getOptions");
-    //BUG: this results in "options is undefined" error beause no response arrives
-    if (typeof options != "undefined") {
-        hideImages(options.options[0])
-        hideUserHtml(options.options[1])
-        hideCategories(options.options[2])
-        enableGreyscale(options.options[3])
-        console.debug("set options on pageload")
-    }
+    console.log(options)
+    hideImages(options[0])
+    hideUserHtml(options[1])
+    hideCategories(options[2])
+    enableGreyscale(options[3])
+    console.debug("set options on pageload")
+
 });
 
 

@@ -63,6 +63,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             });
         });
 
+        return true
+
     }
 
     if (request.action.includes("Keyword")) {
