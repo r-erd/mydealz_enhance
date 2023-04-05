@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.set({ keywords: [], options: [true, true, true, true] });
+    chrome.storage.local.set({ keywords: [], options: [false, false, false, false] });
 });
 
 
