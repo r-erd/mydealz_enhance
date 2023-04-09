@@ -10,9 +10,11 @@
 }
 
 /* remove deal description preview   */
-.hide-userHtml .userHtml {
+/* .hide-userHtml .userHtml {
     display: none;
 }
+
+*/
 
 .greyscale {
     filter: grayscale(100%);
