@@ -21,9 +21,6 @@
             "matches": [
                 "https://www.mydealz.de/*"
             ],
-            "exclude_matches": [
-                "https://www.mydealz.de/deals/*"
-            ],
             "js": [
                 "content.js"
             ],
