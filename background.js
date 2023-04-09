@@ -1,5 +1,18 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.set({ keywords: [], options: [false, false, false, false] });
+
+    //init as empty / disabled on first install (if undefined)
+    chrome.storage.local.get(['options'], function (result) {
+        if (typeof (result) == "undefined") {
+            console.log("initialized options")
+            chrome.storage.local.set({ options: [false, false, false, false] });
+        }
+    });
+    chrome.storage.local.get(['keywords'], function (result) {
+        if (typeof (result) == "undefined") {
+            console.log("initialized keywords")
+            chrome.storage.local.set({ keywords: [] });
+        }
+    });
 });
 
 
