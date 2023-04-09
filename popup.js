@@ -4,7 +4,7 @@ updateKeywordsList();
 updateOptions();
 
 const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
-const hidePreviewCheckbox = document.getElementById('hide-preview-checkbox');
+// const hidePreviewCheckbox = document.getElementById('hide-preview-checkbox');
 const hideCategoriesCheckbox = document.getElementById('hide-categories-checkbox');
 const removeColorsCheckbox = document.getElementById('remove-colors-checkbox');
 
@@ -13,7 +13,7 @@ function updateOptions() {
 
         if (options && options.length > 0) {
             hideImagesCheckbox.checked = options[0];
-            hidePreviewCheckbox.checked = options[1];
+            // hidePreviewCheckbox.checked = options[1];
             hideCategoriesCheckbox.checked = options[2];
             removeColorsCheckbox.checked = options[3];
             console.log("updated inital state of input-boxes to: " + options)
@@ -105,10 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
         hideImages = storedHideImages;
     });
 
-    chrome.storage.local.get('hidePreview', ({ hidePreview: storedHidePreview = true }) => {
+/*     chrome.storage.local.get('hidePreview', ({ hidePreview: storedHidePreview = true }) => {
         hidePreviewCheckbox.checked = storedHidePreview;
         hidePreview = storedHidePreview;
-    });
+    }); */
 
     chrome.storage.local.get('hideCategories', ({ hideCategories: storedHideCategories = true }) => {
         hideCategoriesCheckbox.checked = storedHideCategories;
@@ -127,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
     });
 
-    hidePreviewCheckbox.addEventListener('click', () => {
+/*     hidePreviewCheckbox.addEventListener('click', () => {
         hidePreview = !hidePreview;
         chrome.storage.local.set({ hidePreview }, () => { });
         chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
-    });
+    }); */
 
     hideCategoriesCheckbox.addEventListener('click', () => {
         hideCategories = !hideCategories;
