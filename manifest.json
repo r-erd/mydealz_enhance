@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "mydealz_enhanced",
-    "description": "Filtere Deals basierend auf Stichwörtern, verstecke Dealbilder, Dealtextvorschau uvm.",
+    "description": "Filtere Deals basierend auf Stichwörtern, verstecke Dealbilder, Schwarz-Weiß Modus",
     "background": {
         "service_worker": "background.js"
     },
