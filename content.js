@@ -21,6 +21,16 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
 });
 
 
+filterEnabled = true
+try {
+    // add hint that the threadList is filtered
+    const filteredHint = '<li class="subNavMenu-item--separator cept-sort-tab test-tablink-discussed"><span class="filtered-hint">🐊 Filtered</span></li>';
+    document.querySelectorAll(".subNavMenu-list").forEach(ul => ul.insertAdjacentHTML('beforeend', filteredHint));
+} catch {
+    filterEnabled = false
+}
+
+
 function hideImages(input) {
     const main = document.querySelector('main');
 
@@ -88,27 +98,29 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 function removeArticles() {
-    let articles = document.querySelectorAll('article')
-    for (let article of articles) {
-        // Check if article is a valid DOM element
-        if (article.nodeType !== Node.ELEMENT_NODE) {
-            continue;
-        }
+    if (filterEnabled) {
+        let articles = document.querySelectorAll('article')
+        for (let article of articles) {
+            // Check if article is a valid DOM element
+            if (article.nodeType !== Node.ELEMENT_NODE) {
+                continue;
+            }
 
-        const links = article.querySelectorAll('a[title]');
-        for (let link of links) {
-            const title = link.getAttribute('title');
+            const links = article.querySelectorAll('a[title]');
+            for (let link of links) {
+                const title = link.getAttribute('title');
 
-            if (forbiddenWords.some(word => title.toLowerCase().includes(word.toLowerCase()))) {
-                // Check if the ancestor of the link element with a class of "threadGrid" exists
-                const threadGrid = link.closest('.thread');
-                if (threadGrid) {
-                    // Remove the article element that contains the threadGrid element
-                    const article = threadGrid.closest('article');
-                    console.info("removed article: " + title)
-                    article.remove()
+                if (forbiddenWords.some(word => title.toLowerCase().includes(word.toLowerCase()))) {
+                    // Check if the ancestor of the link element with a class of "threadGrid" exists
+                    const threadGrid = link.closest('.thread');
+                    if (threadGrid) {
+                        // Remove the article element that contains the threadGrid element
+                        const article = threadGrid.closest('article');
+                        console.info("removed article: " + title)
+                        article.remove()
+                    }
+                } else {
                 }
-            } else {
             }
         }
     }

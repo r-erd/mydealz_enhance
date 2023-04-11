@@ -1,4 +1,4 @@
-/* =============== NOT INCLUDED BELOW  =============== */
+/* =============== INCLUDED BELOW  =============== */
 /* remove category banner on top of page  */
 .hide-groupPromo--bg .groupPromo--bg {
     display: none;
@@ -91,4 +91,13 @@ main .btn--mode-boxSec {
     -moz-filter: none;
     -ms-filter: none;
     -o-filter: none;
+}
+.filtered-hint {
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white;
+    color: green;
+    margin-top: 13px;
+    height: fit-content;
 }
