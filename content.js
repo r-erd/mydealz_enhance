@@ -1,6 +1,7 @@
 // Remove articles when the page loads
 console.debug("injected content.js mydealz_enhance");
 let forbiddenWords = []
+let filterEnabled = true
 
 chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     console.debug("sent initial getKeywords");
@@ -9,6 +10,7 @@ chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     console.debug("removed images on pageload")
 });
 
+let userFilterEnable = false
 chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
     console.debug("sent initial getOptions");
     console.log(options)
@@ -16,19 +18,10 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
     hideUserHtml(options[1])
     hideCategories(options[2])
     enableGreyscale(options[3])
+    enableFiltering(options[4])
     console.debug("set options on pageload")
 
 });
-
-
-filterEnabled = true
-try {
-    // add hint that the threadList is filtered
-    const filteredHint = '<li class="subNavMenu-item--separator cept-sort-tab test-tablink-discussed"><span class="filtered-hint">🐊 Filtered</span></li>';
-    document.querySelectorAll(".subNavMenu-list").forEach(ul => ul.insertAdjacentHTML('beforeend', filteredHint));
-} catch {
-    filterEnabled = false
-}
 
 
 function hideImages(input) {
@@ -79,6 +72,23 @@ function enableGreyscale(input) {
     }
 }
 
+function enableFiltering(input) {
+    userFilterEnable = input
+
+    if (userFilterEnable) {
+        try {
+            // add hint that the threadList is filtered
+            let inner = '🐊 Filtered'
+            let child = '<a style="height: 30px;" <span class="filtered-hint">' + inner + ' </span></a>'
+            let filteredHint = '<li style="height: 3.25062em; display: flex; align-items: center;" class="subNavMenu-item--separator cept-sort-tab">' + child + '</li>';
+
+            document.querySelectorAll(".subNavMenu-list").forEach(ul => ul.insertAdjacentHTML('beforeend', filteredHint));
+        } catch {
+            filterEnabled = false
+        }
+    }
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     if (request.type === "KEYWORDS_RECEIVED") {
@@ -98,7 +108,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 function removeArticles() {
-    if (filterEnabled) {
+    if (filterEnabled && userFilterEnable) {
         let articles = document.querySelectorAll('article')
         for (let article of articles) {
             // Check if article is a valid DOM element

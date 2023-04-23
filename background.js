@@ -4,7 +4,7 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.get(['options'], function (result) {
         if (typeof (result) == "undefined") {
             console.log("initialized options")
-            chrome.storage.local.set({ options: [false, false, false, false] });
+            chrome.storage.local.set({ options: [false, false, false, false, false] });
         }
     });
     chrome.storage.local.get(['keywords'], function (result) {

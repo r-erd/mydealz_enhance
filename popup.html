@@ -6,7 +6,7 @@
   <title>mydealz enhance</title>
   <style>
     .container {
-      min-height: 150px;
+      min-height: 130px;
       border-radius: 10px;
       padding: 10px;
       border: 3px solid green;
@@ -18,7 +18,7 @@
       margin-top: 0;
       margin-bottom: 0px;
       text-align: right;
-      margin-left: 100px;
+      margin-left: 300px;
     }
 
     .tooltip {
@@ -51,7 +51,7 @@
     }
 
     body {
-      min-width: 300px;
+      min-width: 500px;
       min-height: 150px;
       overflow-x: hidden;
     }
@@ -126,17 +126,12 @@
         can
         click it to remove it from the list.
         </span>
-        </div>
+    </div>
         <label>
       <input class="checkbox" type="checkbox" id="hide-images-checkbox">
       Hide Images
       </label>
-<!--      <br>
-      <label>
-      <input class="checkbox" type="checkbox" id="hide-preview-checkbox">
-      Hide Description-Preview
-      </label> -->
-      <br>
+    <br>
       <label>
       <input class="checkbox" type="checkbox" id="remove-colors-checkbox">
       Black/White Mode
@@ -147,11 +142,18 @@
       Hide Category-Banner
       </label>
       <br>
-    <h4>List of blocked keywords:</h4>
-    <ul id="keywords-list">
-    </ul>
-    <input class="textInput" id="keywordInput" type="text">
-    <button id="add-keyword-button" class="button">Add</button>
+      <label>
+        <input class="checkbox" type="checkbox" id="disable-filter-checkbox">
+        Enable Keyword-Filter
+      </label>
+      <div id="keywordComponent">
+          <h4>List of blocked keywords:</h4>
+          <ul id="keywords-list">
+          </ul>
+          <input class="textInput" id="keywordInput" type="text">
+          <button id="add-keyword-button" class="button">Add</button>
+    </div>
+
     <script src="popup.js"></script>
     </div>
 </body>

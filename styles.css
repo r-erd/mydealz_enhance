@@ -93,11 +93,11 @@ main .btn--mode-boxSec {
     -o-filter: none;
 }
 .filtered-hint {
+    margin-left: 10px;
     border: 2px solid green;
     border-radius: 10px;
     padding: 5px;
     background-color: white;
     color: green;
-    margin-top: 13px;
     height: fit-content;
 }
