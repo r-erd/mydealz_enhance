@@ -4,7 +4,7 @@ updateKeywordsList();
 updateOptions();
 
 const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
-// const hidePreviewCheckbox = document.getElementById('hide-preview-checkbox');
+const disableFilterCheckbox = document.getElementById('disable-filter-checkbox');
 const hideCategoriesCheckbox = document.getElementById('hide-categories-checkbox');
 const removeColorsCheckbox = document.getElementById('remove-colors-checkbox');
 
@@ -13,9 +13,10 @@ function updateOptions() {
 
         if (options && options.length > 0) {
             hideImagesCheckbox.checked = options[0];
-            // hidePreviewCheckbox.checked = options[1];
+            disableFilterCheckbox.checked = options[1];
             hideCategoriesCheckbox.checked = options[2];
             removeColorsCheckbox.checked = options[3];
+            disableFilterCheckbox.checked = options[4];
             console.log("updated inital state of input-boxes to: " + options)
         }
     });
@@ -99,16 +100,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let hidePreview = true;
     let hideCategories = true;
     let removeColors = true;
+    let disableFilter = false;
 
     chrome.storage.local.get('hideImages', ({ hideImages: storedHideImages = true }) => {
         hideImagesCheckbox.checked = storedHideImages;
         hideImages = storedHideImages;
     });
 
-/*     chrome.storage.local.get('hidePreview', ({ hidePreview: storedHidePreview = true }) => {
-        hidePreviewCheckbox.checked = storedHidePreview;
-        hidePreview = storedHidePreview;
-    }); */
+    chrome.storage.local.get('disableFilter', ({ disableFilter: storedDisableFilter = true }) => {
+        disableFilterCheckbox.checked = storedDisableFilter;
+        disableFilter = storedDisableFilter;
+        var element = document.getElementById("keywordComponent");
+        if (disableFilter) {
+            element.style.display = "block";
+            console.log("showing keywords")
+        } else {
+            element.style.display = "none";
+            console.log("hiding keywords")
+        }
+    });
 
     chrome.storage.local.get('hideCategories', ({ hideCategories: storedHideCategories = true }) => {
         hideCategoriesCheckbox.checked = storedHideCategories;
@@ -124,25 +134,34 @@ document.addEventListener('DOMContentLoaded', () => {
     hideImagesCheckbox.addEventListener('click', () => {
         hideImages = !hideImages;
         chrome.storage.local.set({ hideImages }, () => { });
-        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors, disableFilter] });
     });
 
-/*     hidePreviewCheckbox.addEventListener('click', () => {
-        hidePreview = !hidePreview;
-        chrome.storage.local.set({ hidePreview }, () => { });
-        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
-    }); */
+    disableFilterCheckbox.addEventListener('click', () => {
+        disableFilter = !disableFilter;
+        chrome.storage.local.set({ disableFilter }, () => { });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors, disableFilter] });
+
+        var element = document.getElementById("keywordComponent");
+        if (disableFilter) {
+            element.style.display = "block";
+            console.log("showing keywords2")
+        } else {
+            element.style.display = "none";
+            console.log("hiding keywords2")
+        }
+    });
 
     hideCategoriesCheckbox.addEventListener('click', () => {
         hideCategories = !hideCategories;
         chrome.storage.local.set({ hideCategories }, () => { });
-        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors, disableFilter] });
     });
 
     removeColorsCheckbox.addEventListener('click', () => {
         removeColors = !removeColors;
         chrome.storage.local.set({ removeColors }, () => { });
-        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors] });
+        chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors, disableFilter] });
     });
 
 });
