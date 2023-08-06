@@ -20,6 +20,12 @@ This is fairly easy.
 
 Some day I might also publish it on the Google Chrome Extension Store.
 
+## Security / Privacy
+
+I wrote this extension with good intentions and to the best of my knowledge it does not contain any vulnerabilities or other security issues or misconfigurations. The extension has the least privileges required for it to function (activeTab, scripting, storage).
+It does not send any information to any servers and stores all information locally.
+It does not do any tracking whatsoever.
+
 ## Development
 
 I never did anything related to chrome extensions before and I heavily relied on ChatGPT when I put this together - so its probably far from perfect. If you spot any issues or have suggestions for improvements feel free to open an issue (or a pull request).
