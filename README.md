@@ -20,6 +20,9 @@ This is fairly easy.
 
 Some day I might also publish it on the Google Chrome Extension Store.
 
+I don't give any guarantees about the functionality, possible issues, compatibility or further support of this software.
+You are using the extension on your own responsibility.
+
 ## Security / Privacy
 
 I wrote this extension with good intentions and to the best of my knowledge it does not contain any vulnerabilities or other security issues or misconfigurations. The extension has the least privileges required for it to function (activeTab, scripting, storage).
