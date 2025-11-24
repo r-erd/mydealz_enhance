@@ -13,6 +13,12 @@ chrome.runtime.onInstalled.addListener(() => {
             chrome.storage.local.set({ keywords: [] });
         }
     });
+    chrome.storage.local.get(['hiddenThreads'], function (result) {
+        if (typeof (result) == "undefined") {
+            console.log("initialized hiddenThreads")
+            chrome.storage.local.set({ hiddenThreads: [] });
+        }
+    });
 });
 
 
@@ -66,6 +72,34 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             }
         });
     }
+    if (request.action == 'getHiddenThreads') {
+        console.log("background.js responded with hiddenThreads")
+        chrome.storage.local.get(['hiddenThreads'], function (result) {
+            sendResponse(result.hiddenThreads || []);
+        });
+    }
+    if (request.action == 'addHiddenThread') {
+        console.log("background.js added a hidden thread")
+        chrome.storage.local.get(['hiddenThreads'], function (result) {
+            const threads = result.hiddenThreads || [];
+            if (!threads.includes(request.threadId)) {
+                threads.push(request.threadId);
+                chrome.storage.local.set({ hiddenThreads: threads }, function () {
+                    sendResponse(true);
+                });
+            }
+        });
+    }
+    if (request.action == 'unhideAllThreads') {
+        console.log("background.js unhiding all threads")
+        chrome.storage.local.set({ hiddenThreads: [] }, function () {
+            // Forward to content.js
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: "UNHIDE_ALL_THREADS" });
+            });
+            sendResponse(true);
+        });
+    }
     if (request.action.includes("Options")) {
         // Forward the options to content.js
         chrome.storage.local.get(['options'], function (result) {
@@ -92,4 +126,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         return true
     }
+
+    if (request.action.includes("HiddenThread")) {
+        // Forward the message to content.js
+        chrome.storage.local.get(['hiddenThreads'], function (result) {
+            console.log("Forwarding hidden threads to content.js...")
+            // Send the hidden threads to content.js
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: "HIDDEN_THREADS_RECEIVED", threads: result.hiddenThreads });
+            });
+        });
+
+        return true
+    }
+
+    return true;
 });

@@ -106,3 +106,20 @@ main .btn--mode-boxSec {
     color: green;
     height: fit-content;
 }
+
+/* Hide thread button styling */
+.hide-thread-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background: white;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.hide-thread-btn:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}

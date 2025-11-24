@@ -237,4 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.runtime.sendMessage({ action: 'setSidebar', hideSidebar });
     });
 
+    // UNHIDE ALL THREADS
+    const unhideThreadsButton = document.getElementById('unhide-threads-button');
+    unhideThreadsButton.addEventListener('click', () => {
+        chrome.runtime.sendMessage({ action: 'unhideAllThreads' }, () => {
+            console.log('All threads unhidden');
+        });
+    });
 });
