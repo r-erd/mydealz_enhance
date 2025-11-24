@@ -2,6 +2,7 @@
 console.debug("injected content.js mydealz_enhance");
 let forbiddenWords = []
 let filterEnabled = true
+let hiddenThreads = []
 
 chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
     console.debug("sent initial getKeywords");
@@ -28,6 +29,15 @@ chrome.storage.local.get('hideSidebar', ({ hideSidebar: storedHideSidebar = fals
     console.debug("loaded hideSidebar setting: " + storedHideSidebar);
     hideSidebarEnabled = storedHideSidebar;
     hideSidebar(hideSidebarEnabled);
+});
+
+// Load hidden threads on page load
+chrome.runtime.sendMessage({ action: 'getHiddenThreads' }, (threads) => {
+    console.debug("sent initial getHiddenThreads");
+    hiddenThreads = threads || []
+    hideThreadsByIds()
+    injectHideButtons()
+    console.debug("applied hidden threads on pageload")
 });
 
 
@@ -108,6 +118,66 @@ function enableFiltering(input) {
     }
 }
 
+// Hide threads based on hiddenThreads array
+function hideThreadsByIds() {
+    hiddenThreads.forEach(threadId => {
+        const article = document.getElementById(`thread_${threadId}`);
+        if (article) {
+            article.style.display = 'none';
+            console.debug(`hiding thread ${threadId}`)
+        }
+    });
+}
+
+// Inject "Hide 🙈" buttons into thread articles
+function injectHideButtons() {
+    const articles = document.querySelectorAll('article[id^="thread_"]');
+    articles.forEach(article => {
+        // Check if button already exists
+        if (article.querySelector('.hide-thread-btn')) return;
+
+        const threadId = article.id.replace('thread_', '');
+        const actionContainer = article.querySelector('.threadListCard-header-action');
+
+        if (actionContainer) {
+            const hideButton = document.createElement('button');
+            hideButton.className = 'hide-thread-btn';
+            hideButton.textContent = 'Hide 🙈';
+            hideButton.title = 'Hide this thread';
+            hideButton.style.cssText = 'margin-left: 10px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; background: white;';
+
+            hideButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hideThread(threadId);
+            });
+
+            actionContainer.appendChild(hideButton);
+        }
+    });
+}
+
+// Hide a specific thread and add its ID to the blacklist
+function hideThread(threadId) {
+    // Add to hiddenThreads array
+    if (!hiddenThreads.includes(threadId)) {
+        hiddenThreads.push(threadId);
+        // Save to storage via background.js
+        chrome.runtime.sendMessage({
+            action: 'addHiddenThread',
+            threadId: threadId
+        });
+        console.debug(`added thread ${threadId} to blacklist`)
+    }
+
+    // Hide the article
+    const article = document.getElementById(`thread_${threadId}`);
+    if (article) {
+        article.style.display = 'none';
+        console.debug(`hid thread ${threadId}`)
+    }
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     if (request.type === "KEYWORDS_RECEIVED") {
@@ -129,6 +199,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.debug("received setSidebar: " + request.hideSidebar);
         hideSidebarEnabled = request.hideSidebar;
         hideSidebar(hideSidebarEnabled);
+    }
+
+    if (request.type === 'HIDDEN_THREADS_RECEIVED') {
+        console.debug("received hidden threads: " + request.threads);
+        hiddenThreads = request.threads || [];
+        hideThreadsByIds();
+    }
+
+    if (request.type === 'UNHIDE_ALL_THREADS') {
+        console.debug("unhiding all threads");
+        hiddenThreads = [];
+        // Show all hidden threads
+        document.querySelectorAll('article[id^="thread_"]').forEach(article => {
+            article.style.display = '';
+        });
     }
 });
 
@@ -161,5 +246,9 @@ function removeArticles() {
     }
 }
 
-const observer = new MutationObserver(removeArticles);
+const observer = new MutationObserver(() => {
+    removeArticles();
+    injectHideButtons();
+    hideThreadsByIds();
+});
 observer.observe(document.body, { childList: true, subtree: true });
