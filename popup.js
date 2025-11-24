@@ -95,6 +95,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const exportKeywordsButton = document.getElementById('export-keywords-button');
+    exportKeywordsButton.addEventListener('click', () => {
+        chrome.runtime.sendMessage({ action: 'getKeywords' }, (keywords) => {
+            const jsonData = JSON.stringify(keywords, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `mydealz_keywords_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+    });
+
+    const importKeywordsButton = document.getElementById('import-keywords-button');
+    const importFileInput = document.getElementById('import-file-input');
+
+    importKeywordsButton.addEventListener('click', () => {
+        importFileInput.click();
+    });
+
+    importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const importedData = JSON.parse(e.target.result);
+
+                if (!Array.isArray(importedData)) {
+                    alert('Error: JSON file must contain an array of keywords');
+                    return;
+                }
+
+                if (!importedData.every(item => typeof item === 'string')) {
+                    alert('Error: All items in the array must be strings');
+                    return;
+                }
+
+                chrome.runtime.sendMessage({ action: 'getKeywords' }, (existingKeywords) => {
+                    const merged = Array.from(new Set([...existingKeywords, ...importedData]));
+                    const newCount = merged.length - existingKeywords.length;
+
+                    chrome.runtime.sendMessage(
+                        { action: 'setKeywords', keywords: merged },
+                        () => {
+                            updateKeywordsList();
+                            alert(`Import successful! Added ${newCount} new keyword(s). Total: ${merged.length}`);
+                        }
+                    );
+                });
+            } catch (error) {
+                alert(`Error reading file: ${error.message}`);
+            }
+        };
+        reader.readAsText(file);
+        importFileInput.value = '';
+    });
+
     // GET MOST RECENT STATE
     let hideImages = true;
     let hidePreview = true;
