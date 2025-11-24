@@ -16,6 +16,11 @@
 
 */
 
+/* hide sidebar */
+.hide-sidebar .listLayout-side {
+    display: none;
+}
+
 .greyscale {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);

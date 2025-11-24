@@ -23,6 +23,13 @@ chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
 
 });
 
+let hideSidebarEnabled = false
+chrome.storage.local.get('hideSidebar', ({ hideSidebar: storedHideSidebar = false }) => {
+    console.debug("loaded hideSidebar setting: " + storedHideSidebar);
+    hideSidebarEnabled = storedHideSidebar;
+    hideSidebar(hideSidebarEnabled);
+});
+
 
 function hideImages(input) {
     const main = document.querySelector('main');
@@ -57,6 +64,18 @@ function hideCategories(input) {
     } else {
         main.classList.remove('hide-groupPromo--bg');
         console.debug("showing categories")
+    }
+}
+
+function hideSidebar(input) {
+    const main = document.querySelector('main');
+
+    if (input) {
+        main.classList.add('hide-sidebar');
+        console.debug("hiding sidebar")
+    } else {
+        main.classList.remove('hide-sidebar');
+        console.debug("showing sidebar")
     }
 }
 
@@ -104,6 +123,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         hideUserHtml(request.options[1])
         hideCategories(request.options[2])
         enableGreyscale(request.options[3])
+    }
+
+    if (request.action == 'setSidebar') {
+        console.debug("received setSidebar: " + request.hideSidebar);
+        hideSidebarEnabled = request.hideSidebar;
+        hideSidebar(hideSidebarEnabled);
     }
 });
 
