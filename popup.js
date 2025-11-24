@@ -7,6 +7,7 @@ const hideImagesCheckbox = document.getElementById('hide-images-checkbox');
 const disableFilterCheckbox = document.getElementById('disable-filter-checkbox');
 const hideCategoriesCheckbox = document.getElementById('hide-categories-checkbox');
 const removeColorsCheckbox = document.getElementById('remove-colors-checkbox');
+const hideSidebarCheckbox = document.getElementById('hide-sidebar-checkbox');
 
 function updateOptions() {
     chrome.runtime.sendMessage({ action: 'getOptions' }, (options) => {
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let hidePreview = true;
     let hideCategories = true;
     let removeColors = true;
+    let hideSidebar = false;
     let disableFilter = false;
 
     chrome.storage.local.get('hideImages', ({ hideImages: storedHideImages = true }) => {
@@ -128,6 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get('removeColors', ({ removeColors: storedRemoveColors = true }) => {
         removeColorsCheckbox.checked = storedRemoveColors;
         removeColors = storedRemoveColors;
+    });
+
+    chrome.storage.local.get('hideSidebar', ({ hideSidebar: storedHideSidebar = false }) => {
+        hideSidebarCheckbox.checked = storedHideSidebar;
+        hideSidebar = storedHideSidebar;
     });
 
     // LISTEN AND UPDATE STATE
@@ -162,6 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
         removeColors = !removeColors;
         chrome.storage.local.set({ removeColors }, () => { });
         chrome.runtime.sendMessage({ action: 'setOptions', options: [hideImages, hidePreview, hideCategories, removeColors, disableFilter] });
+    });
+
+    hideSidebarCheckbox.addEventListener('click', () => {
+        hideSidebar = !hideSidebar;
+        chrome.storage.local.set({ hideSidebar }, () => { });
+        chrome.runtime.sendMessage({ action: 'setSidebar', hideSidebar });
     });
 
 });
