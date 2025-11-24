@@ -5,12 +5,15 @@ This is a browser extension to add some custom functionality to the mydealz webs
 
 Functions:
 - add keywords to blacklist, deals that contain these in their title will be hidden (uncased string match)
+- export and import keyword blacklist for easy backup and sharing
+- hide individual threads/deals with a button click
 - option to reduce visual clutter by enabling custom css / other modifications
     - grayscale mode
     - hide images
     - hide categories banner
+    - hide sidebar in listview
 
-<img src="img/screenshot.jpg" alt="Chrome Extension Screenshot" width="400"/>
+<img src="img/screenshot.png" alt="Chrome Extension Screenshot" width="400"/>
 
 ## Usage
 
