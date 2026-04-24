@@ -2,17 +2,17 @@
 
 <img src="images/icon-128.png" alt="mydealz_enhance icon" width="64"/>
 
-## Functionality
-This is a browser extension to add some custom functionality to the mydealz website.
+## Features
 
-Functions:
-- add keywords to blacklist, deals that contain these in their title will be hidden (uncased string match)
-- option to reduce visual clutter by enabling custom css / other modifications
-    - grayscale mode
-    - hide images
-    - hide categories banner
+A browser extension that adds filtering and display customisation to [mydealz.de](https://www.mydealz.de).
 
-<img src="img/screenshot.jpg" alt="Chrome Extension Screenshot" width="400"/>
+- **Keyword filter** — blacklist keywords; deals containing them in their title are hidden. A toggle in the mydealz navigation bar lets you enable/disable filtering without opening the popup.
+- **Hide images** — removes deal images for a cleaner list view
+- **Hide category banner** — hides the category promo banner at the top of the page
+- **Hide sidebar** — collapses the sidebar for a wider feed
+- **Black & White mode** — applies a greyscale filter to the page *(not supported in Safari)*
+
+<img src="img/screenshot.png" alt="Extension screenshot" width="400"/>
 
 ## Usage
 
@@ -53,31 +53,19 @@ Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is r
    cp images/Icon.png "<generated-project-name>/Shared (App)/Resources/Icon.png"
    ```
 4. Xcode opens with a generated project. Press **Run** (▶) to build and install it.
-5. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
-6. Enable unsigned extensions: open **Safari → Settings → Advanced**, enable **Show Develop menu**, then open **Develop → Allow Unsigned Extensions**.
-7. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
+5. Enable unsigned extensions: open **Safari → Settings → Advanced**, enable **Show Develop menu**, then open **Develop → Allow Unsigned Extensions**.
+6. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
 
 > **Note:** The extension stays installed permanently. However, **Allow Unsigned Extensions** resets every time Safari restarts — you only need to re-tick that toggle, not reinstall the extension.
 
-> The generated Xcode project does not need to be kept — re-run the converter command if you update the extension.
->
 > **Note:** `safari-web-extension-converter` requires the full **Xcode app** (not just the Command Line Tools). Install Xcode from the App Store, open it once to accept the license, then run `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` before retrying.
-
-Some day I might also publish it on the Google Chrome Extension Store.
-
-I don't give any guarantees about the functionality, possible issues, compatibility or further support of this software.
-You are using the extension on your own responsibility.
 
 ## Security / Privacy
 
-I wrote this extension with good intentions and to the best of my knowledge it does not contain any vulnerabilities or other security issues or misconfigurations. The extension has the least privileges required for it to function (activeTab, scripting, storage).
-It does not send any information to any servers and stores all information locally.
-It does not do any tracking whatsoever.
+The extension has the minimum permissions required to function (`activeTab`, `scripting`, `storage`). It does not send any data to external servers, stores everything locally, and does no tracking.
 
 ## Development
 
-I never did anything related to chrome extensions before and I heavily relied on ChatGPT when I put this together - so its probably far from perfect. If you spot any issues or have suggestions for improvements feel free to open an issue (or a pull request).
+Contributions are welcome — feel free to open an issue or pull request if you spot a bug or have an idea for improvement.
 
-
-
-
+I don't give any guarantees about functionality, compatibility, or ongoing support. Use at your own risk.
