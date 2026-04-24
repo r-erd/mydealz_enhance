@@ -1,3 +1,15 @@
+function updateIcon(isDark) {
+    const suffix = isDark ? '-dark' : '';
+    chrome.action.setIcon({
+        path: {
+            16:  `images/icon-16${suffix}.png`,
+            32:  `images/icon-32${suffix}.png`,
+            48:  `images/icon-48${suffix}.png`,
+            128: `images/icon-128${suffix}.png`
+        }
+    });
+}
+
 chrome.runtime.onInstalled.addListener(() => {
 
     //init as empty / disabled on first install (if undefined)
@@ -93,3 +105,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         return true
     }
 });
+
+const darkModeQuery = self.matchMedia('(prefers-color-scheme: dark)');
+updateIcon(darkModeQuery.matches);
+darkModeQuery.addEventListener('change', (e) => updateIcon(e.matches));
