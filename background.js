@@ -31,6 +31,11 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(request)
 
+    if (request.action == 'setColorScheme') {
+        updateIcon(request.isDark);
+        return;
+    }
+
     if (request.action == 'getOptions') {
         console.log("getOptions message received")
         chrome.storage.local.get(['options'], function (result) {
@@ -106,6 +111,3 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 });
 
-const darkModeQuery = self.matchMedia('(prefers-color-scheme: dark)');
-updateIcon(darkModeQuery.matches);
-darkModeQuery.addEventListener('change', (e) => updateIcon(e.matches));

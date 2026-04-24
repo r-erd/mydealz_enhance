@@ -1,5 +1,10 @@
 // Remove articles when the page loads
 console.debug("injected content.js mydealz_enhance");
+const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+chrome.runtime.sendMessage({ action: 'setColorScheme', isDark: colorSchemeQuery.matches });
+colorSchemeQuery.addEventListener('change', (e) => {
+    chrome.runtime.sendMessage({ action: 'setColorScheme', isDark: e.matches });
+});
 let forbiddenWords = []
 let filterEnabled = true
 
