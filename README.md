@@ -1,4 +1,6 @@
-# 🐊 mydealz_enhance
+# mydealz_enhance
+
+<img src="images/icon-128.png" alt="mydealz_enhance icon" width="64"/>
 
 ## Functionality
 This is a browser extension to add some custom functionality to the mydealz website.
