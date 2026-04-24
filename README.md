@@ -51,6 +51,8 @@ Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is r
 5. If the extension doesn't appear: enable the Developer menu via **Safari → Settings → Advanced → Show Develop menu**, then check **Develop → Allow Unsigned Extensions**.
 
 > The generated Xcode project does not need to be kept — re-run the converter command if you update the extension.
+>
+> **Note:** `safari-web-extension-converter` requires the full **Xcode app** (not just the Command Line Tools). Install Xcode from the App Store, open it once to accept the license, then run `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` before retrying.
 
 Some day I might also publish it on the Google Chrome Extension Store.
 
