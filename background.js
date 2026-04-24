@@ -1,15 +1,3 @@
-function updateIcon(isDark) {
-    const suffix = isDark ? '-dark' : '';
-    chrome.action.setIcon({
-        path: {
-            16:  `images/icon-16${suffix}.png`,
-            32:  `images/icon-32${suffix}.png`,
-            48:  `images/icon-48${suffix}.png`,
-            128: `images/icon-128${suffix}.png`
-        }
-    });
-}
-
 chrome.runtime.onInstalled.addListener(() => {
 
     //init as empty / disabled on first install (if undefined)
@@ -30,11 +18,6 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(request)
-
-    if (request.action == 'setColorScheme') {
-        updateIcon(request.isDark);
-        return;
-    }
 
     if (request.action == 'getOptions') {
         console.log("getOptions message received")
