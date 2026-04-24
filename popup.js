@@ -32,7 +32,7 @@ function updateKeywordsList() {
             keywords.forEach((keyword) => {
                 
                 const button = document.createElement('button');
-                button.style = "display: inline; margin-right: 5px; margin-bottom: 5px; border-radius: 10px; padding: 4px; border: 1px solid green; background-color: white; cursor: pointer;"
+                button.style = "display:inline-flex;align-items:center;background:#F2F2F7;border:none;border-radius:20px;padding:4px 12px;font-size:13px;color:#1C1C1E;cursor:pointer;font-family:inherit;"
 
                 button.innerText = keyword;
                 button.dataset.keyword = keyword;

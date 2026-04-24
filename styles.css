@@ -5,7 +5,7 @@
 }
 
 /* removes deal images */
-.hide-threadGrid-image .threadGrid-image {
+.hide-threadGrid-image .threadListCard-image {
     display: none
 }
 
@@ -98,11 +98,62 @@ main .btn--mode-boxSec {
     -o-filter: none;
 }
 .filtered-hint {
-    margin-left: 10px;
-    border: 2px solid green;
-    border-radius: 10px;
-    padding: 5px;
-    background-color: white;
-    color: green;
-    height: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px 4px 12px;
+    border-radius: 20px;
+    border: 1.5px solid #00A550;
+    background: rgba(0, 165, 80, 0.12);
+    color: #007A3D;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.filtered-toggle {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.filtered-toggle-track {
+    position: absolute;
+    inset: 0;
+    background: #34C759;
+    border-radius: 18px;
+    transition: background 0.2s ease;
+}
+
+.filtered-toggle-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    transition: transform 0.2s ease;
+}
+
+.filtered-toggle:hover .filtered-toggle-track {
+    background: #2DB84D;
+}
+
+.filtered-toggle--off .filtered-toggle-track {
+    background: #C7C7CC;
+}
+
+.filtered-toggle--off .filtered-toggle-track::after {
+    right: auto;
+    left: 2px;
+}
+
+.filtered-toggle--off:hover .filtered-toggle-track {
+    background: #AEAEB2;
 }

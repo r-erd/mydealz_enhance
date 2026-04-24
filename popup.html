@@ -1,169 +1,389 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8" />
   <title>mydealz enhance</title>
   <style>
-    .container {
-      min-height: 130px;
-      border-radius: 10px;
-      padding: 10px;
-      border: 3px solid green;
-    }
-
-    .helptext {
-      font-size: small;
-      display: inline-block;
-      margin-top: 0;
-      margin-bottom: 0px;
-      text-align: right;
-      margin-left: 300px;
-    }
-
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      font-size: x-small;
-      border-bottom: 1px dotted black;
-    }
-
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 120px;
-      background-color: black;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 5px 0;
-      font-size: x-small;
-
-      /* Position the tooltip */
-      position: absolute;
-      z-index: 1;
-      top: -5px;
-      right: 105%;
-      padding: 10px;
-    }
-
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      min-width: 500px;
-      min-height: 150px;
-      overflow-x: hidden;
+      width: 340px;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      background: #F2F2F7;
+      color: #1C1C1E;
+      -webkit-font-smoothing: antialiased;
     }
 
-    h1 {
-      margin-top: 0;
+    /* ── Header ── */
+    .header {
+      background: #FFFFFF;
+      padding: 10px 14px 8px;
+      border-bottom: 0.5px solid #E5E5EA;
     }
 
-    ul {
-      padding-left: 0;
-      list-style: none;
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.1px;
     }
 
-    p {
-      display: inline-block;
-      font-size: medium;
-      margin-top: 0;
-      margin-bottom: 0px;
+    .header p {
+      font-size: 11px;
+      color: #8E8E93;
+      margin-top: 1px;
     }
 
-    li {
+    /* ── Section ── */
+    .section {
+      margin: 12px 12px 0;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #8E8E93;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      padding-left: 4px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* ── Toggle rows ── */
+    .toggle-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      margin-bottom: 5px;
-      padding: 5px;
-    }
-
-    li span {
-      margin-right: 10px;
-    }
-
-    .textInput {
-      border-radius: 5px;
-      border: 0.2mm solid grey;
-      height: 20px;
-      width: fit-content;
-      min-width: 60px"
-
-    }
-
-    .checkbox {
-      margin-top: 10px;
-    }
-
-    .button {
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: green;
+      padding: 7px 12px;
       cursor: pointer;
-      color: white;
-      margin-top: 10px;
-      margin-bottom: 0;
+      user-select: none;
     }
 
-    .button:hover {
-      background-color: darkgreen;
-      color: white;
+    .toggle-row + .toggle-row {
+      border-top: 0.5px solid #E5E5EA;
+    }
+
+    .toggle-row-label {
+      font-size: 13px;
+    }
+
+    /* ── Toggle switch ── */
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: #E5E5EA;
+      border-radius: 22px;
+      transition: background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+      transition: transform 0.2s ease;
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: #34C759;
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      transform: translateX(14px);
+    }
+
+    /* ── Keyword section ── */
+    #keywordComponent {
+      margin: 12px 12px 0;
+    }
+
+    #keywordComponent.hidden {
+      display: none;
+    }
+
+    .keywords-card {
+      background: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    #keywords-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      min-height: 22px;
+      margin-bottom: 8px;
+      list-style: none;
+      padding: 0;
+    }
+
+    #keywords-list li {
+      font-size: 12px;
+      color: #8E8E93;
+      padding: 2px 0;
+    }
+
+    /* keyword tag buttons — also overridden via popup.js inline style */
+    #keywords-list button {
+      display: inline-flex;
+      align-items: center;
+      background: #F2F2F7;
+      border: none;
+      border-radius: 20px;
+      padding: 3px 9px;
+      font-size: 12px;
+      color: #1C1C1E;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+
+    #keywords-list button:hover {
+      background: #E5E5EA;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .keyword-input {
+      flex: 1;
+      height: 28px;
+      border: 0.5px solid #E5E5EA;
+      border-radius: 8px;
+      padding: 0 9px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #1C1C1E;
+      background: #F2F2F7;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .keyword-input:focus {
+      border-color: #007AFF;
+      background: #FFFFFF;
+    }
+
+    .btn-primary {
+      height: 28px;
+      padding: 0 12px;
+      background: #007AFF;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+    }
+
+    .transfer-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      height: 26px;
+      background: #F2F2F7;
+      color: #007AFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover {
+      background: #E5E5EA;
+    }
+
+    /* ── Tooltip ── */
+    .tooltip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: default;
+    }
+
+    .tooltip-icon {
+      font-size: 11px;
+      color: #8E8E93;
+      margin-left: 4px;
+      line-height: 1;
+    }
+
+    .tooltip-text {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: calc(100% + 4px);
+      width: 220px;
+      background: #1C1C1E;
+      color: #FFFFFF;
+      font-size: 11px;
+      line-height: 1.4;
+      padding: 7px 10px;
+      border-radius: 8px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .tooltip:hover .tooltip-text {
+      display: block;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 8px 14px 12px;
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 10px;
+      color: #C7C7CC;
+    }
+
+    /* ── Dark mode ── */
+    @media (prefers-color-scheme: dark) {
+      body { background: #1C1C1E; color: #FFFFFF; }
+      .header { background: #2C2C2E; border-color: #3A3A3C; }
+      .header p { color: #8E8E93; }
+      .card { background: #2C2C2E; }
+      .toggle-row + .toggle-row { border-color: #3A3A3C; }
+      .toggle-track { background: #3A3A3C; }
+      .keywords-card { background: #2C2C2E; }
+      #keywords-list button { background: #3A3A3C; color: #FFFFFF; }
+      #keywords-list button:hover { background: #48484A; }
+      .keyword-input { background: #3A3A3C; border-color: #48484A; color: #FFFFFF; }
+      .keyword-input:focus { background: #2C2C2E; border-color: #007AFF; }
+      .btn-secondary { background: #3A3A3C; }
+      .btn-secondary:hover { background: #48484A; }
+      .footer p { color: #48484A; }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <p>
-      mydealz_enhance
-    </p>
-    <div class="helptext tooltip">
-      help
-      <span class="tooltiptext">
-        You can add keywords here. Deals containing the keyword in its title will be hidden. After adding a keyboard you
-        can
-        click it to remove it from the list.
-        </span>
-    </div>
-        <label>
-      <input class="checkbox" type="checkbox" id="hide-images-checkbox">
-      Hide Images
-      </label>
-    <br>
-      <label>
-      <input class="checkbox" type="checkbox" id="remove-colors-checkbox">
-      Black/White Mode
-      </label>
-      <br>
-      <label>
-      <input class="checkbox" type="checkbox" id="hide-categories-checkbox">
-      Hide Category-Banner
-      </label>
-      <br>
-      <label>
-      <input class="checkbox" type="checkbox" id="hide-sidebar-checkbox">
-      Hide Sidebar
-      </label>
-      <br>
-      <label>
-        <input class="checkbox" type="checkbox" id="disable-filter-checkbox">
-        Enable Keyword-Filter <span style="font-size: x-small;">(refresh page to undo filtering)</span>
-      </label>
-      <div id="keywordComponent">
-          <h4>List of blocked keywords:</h4>
-          <ul id="keywords-list">
-          </ul>
-          <input class="textInput" id="keywordInput" type="text">
-          <button id="add-keyword-button" class="button">Add</button>
-          <button id="export-keywords-button" class="button" style="background-color: #4CAF50; margin-left: 5px;">Export</button>
-          <button id="import-keywords-button" class="button" style="background-color: #2196F3; margin-left: 5px;">Import</button>
-          <input type="file" id="import-file-input" accept=".json" style="display: none;">
-    </div>
 
-    <script src="popup.js"></script>
+  <div class="header">
+    <h1>mydealz enhance</h1>
+    <p>Customize your deal feed</p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Display</div>
+    <div class="card">
+      <label class="toggle-row">
+        <span class="toggle-row-label">Hide Images</span>
+        <div class="toggle">
+          <input type="checkbox" id="hide-images-checkbox">
+          <span class="toggle-track"></span>
+        </div>
+      </label>
+      <label class="toggle-row">
+        <span class="toggle-row-label">Black &amp; White Mode</span>
+        <div class="toggle">
+          <input type="checkbox" id="remove-colors-checkbox">
+          <span class="toggle-track"></span>
+        </div>
+      </label>
+      <label class="toggle-row">
+        <span class="toggle-row-label">Hide Category Banner</span>
+        <div class="toggle">
+          <input type="checkbox" id="hide-categories-checkbox">
+          <span class="toggle-track"></span>
+        </div>
+      </label>
+      <label class="toggle-row">
+        <span class="toggle-row-label">Hide Sidebar</span>
+        <div class="toggle">
+          <input type="checkbox" id="hide-sidebar-checkbox">
+          <span class="toggle-track"></span>
+        </div>
+      </label>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Keyword Filter</div>
+    <div class="card">
+      <label class="toggle-row">
+        <span class="toggle-row-label">Enable Filter</span>
+        <div class="toggle">
+          <input type="checkbox" id="disable-filter-checkbox">
+          <span class="toggle-track"></span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div id="keywordComponent" class="hidden">
+    <div class="section-label" style="padding-left:4px;margin-bottom:6px;">
+      <span class="tooltip">
+        Blocked Keywords <span class="tooltip-icon">ⓘ</span>
+        <span class="tooltip-text">Deals whose title contains a keyword (case-insensitive) will be hidden. Click a keyword tag to remove it.</span>
+      </span>
+    </div>
+    <div class="keywords-card">
+      <ul id="keywords-list"></ul>
+      <div class="input-row">
+        <input class="keyword-input" id="keywordInput" type="text" placeholder="Add keyword…">
+        <button id="add-keyword-button" class="btn-primary">Add</button>
+      </div>
+      <div class="transfer-row">
+        <button id="export-keywords-button" class="btn-secondary">Export</button>
+        <button id="import-keywords-button" class="btn-secondary">Import</button>
+        <input type="file" id="import-file-input" accept=".json" style="display:none;">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Refresh the page to apply filter changes</p>
+  </div>
+
+  <script src="popup.js"></script>
 </body>
-
 </html>

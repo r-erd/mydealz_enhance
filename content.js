@@ -94,17 +94,25 @@ function enableGreyscale(input) {
 function enableFiltering(input) {
     userFilterEnable = input
 
-    if (userFilterEnable) {
-        try {
-            // add hint that the threadList is filtered
-            let inner = '🐊 Filtered'
-            let child = '<a style="height: 30px;" <span class="filtered-hint">' + inner + ' </span></a>'
-            let filteredHint = '<li style="height: 3.25062em; display: flex; align-items: center;" class="subNavMenu-item--separator cept-sort-tab">' + child + '</li>';
+    try {
+        const activeClass = input ? '' : ' filtered-toggle--off';
+        const filteredHint = `<li style="display:flex;align-items:center;padding:0 8px;" class="subNavMenu-item--separator cept-sort-tab"><span class="filtered-hint">Keyword filter<span class="filtered-toggle${activeClass}"><span class="filtered-toggle-track"></span></span></span></li>`;
 
-            document.querySelectorAll(".subNavMenu-list").forEach(ul => ul.insertAdjacentHTML('beforeend', filteredHint));
-        } catch {
-            filterEnabled = false
-        }
+        document.querySelectorAll(".subNavMenu-list").forEach(ul => ul.insertAdjacentHTML('beforeend', filteredHint));
+
+        document.querySelectorAll('.filtered-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const newState = !userFilterEnable;
+                chrome.storage.local.set({ disableFilter: newState });
+                chrome.storage.local.get(['options'], (result) => {
+                    const options = result.options || [false, false, false, false, false];
+                    options[4] = newState;
+                    chrome.storage.local.set({ options }, () => window.location.reload());
+                });
+            });
+        });
+    } catch {
+        filterEnabled = false
     }
 }
 
