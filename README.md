@@ -48,9 +48,13 @@ Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is r
    ```bash
    xcrun safari-web-extension-converter /path/to/extension-folder
    ```
-3. Xcode opens with a generated project. Press **Run** (▶) to build and install it.
-4. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
-5. If the extension doesn't appear: enable the Developer menu via **Safari → Settings → Advanced → Show Develop menu**, then check **Develop → Allow Unsigned Extensions**.
+3. Copy the app icon into the generated project:
+   ```bash
+   cp images/Icon.png "<generated-project-name>/Shared (App)/Resources/Icon.png"
+   ```
+4. Xcode opens with a generated project. Press **Run** (▶) to build and install it.
+5. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
+6. If the extension doesn't appear: enable the Developer menu via **Safari → Settings → Advanced → Show Develop menu**, then check **Develop → Allow Unsigned Extensions**.
 
 > The generated Xcode project does not need to be kept — re-run the converter command if you update the extension.
 >
