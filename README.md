@@ -14,9 +14,43 @@ Functions:
 
 ## Usage
 
-This is fairly easy.
-- Step 1: Download the most recent version from the releases section.
-- Step 2: follow [this guide](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked) on how to install an unpacked extension in Google Chrome. Or [this guide](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/getting-started/extension-sideloading) on how to install an unpacked extension in Microsoft Edge.
+### Chrome & Edge
+
+1. Download `chrome.zip` from the [releases section](../../releases) and unzip it.
+2. Open `chrome://extensions` (Chrome) or `edge://extensions` (Edge).
+3. Enable **Developer mode** (toggle in the top-right corner).
+4. Click **Load unpacked** and select the unzipped folder.
+
+### Firefox
+
+> **Note:** Firefox does not allow permanently installing unsigned extensions in the standard release build. Use **Firefox Developer Edition** or **Firefox ESR** for a persistent install, or follow the temporary install steps below for testing.
+
+**Temporary install (any Firefox, lost on restart):**
+1. Download `firefox.zip` from the [releases section](../../releases) and unzip it.
+2. Open `about:debugging` in Firefox.
+3. Click **This Firefox** → **Load Temporary Add-on**.
+4. Navigate into the unzipped folder and select `manifest.json`.
+
+**Permanent install (Firefox Developer Edition / ESR only):**
+1. Open `about:config` and set `xpinstall.signatures.required` to `false`.
+2. Then follow the temporary install steps above — the extension will survive restarts.
+
+### Safari
+
+Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is required.
+
+**Prerequisites:** macOS with [Xcode](https://developer.apple.com/xcode/) installed.
+
+1. Download the source or clone the repository.
+2. Run the converter in your terminal:
+   ```bash
+   xcrun safari-web-extension-converter /path/to/extension-folder
+   ```
+3. Xcode opens with a generated project. Press **Run** (▶) to build and install it.
+4. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
+5. If the extension doesn't appear: enable the Developer menu via **Safari → Settings → Advanced → Show Develop menu**, then check **Develop → Allow Unsigned Extensions**.
+
+> The generated Xcode project does not need to be kept — re-run the converter command if you update the extension.
 
 Some day I might also publish it on the Google Chrome Extension Store.
 
