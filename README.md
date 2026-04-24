@@ -54,8 +54,10 @@ Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is r
    ```
 4. Xcode opens with a generated project. Press **Run** (▶) to build and install it.
 5. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
-6. Enable unsigned extensions: open **Safari → Settings → Advanced**, enable **Show Develop menu**, then open **Develop → Allow Unsigned Extensions**. You will need to re-enable this each time you restart Safari.
+6. Enable unsigned extensions: open **Safari → Settings → Advanced**, enable **Show Develop menu**, then open **Develop → Allow Unsigned Extensions**.
 7. In Safari, open **Safari → Settings → Extensions** and enable **mydealz_enhanced**.
+
+> **Note:** The extension stays installed permanently. However, **Allow Unsigned Extensions** resets every time Safari restarts — you only need to re-tick that toggle, not reinstall the extension.
 
 > The generated Xcode project does not need to be kept — re-run the converter command if you update the extension.
 >
