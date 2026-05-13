@@ -237,4 +237,10 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.runtime.sendMessage({ action: 'setSidebar', hideSidebar });
     });
 
+    const disclaimerToggle = document.getElementById('disclaimer-toggle');
+    const disclaimerText = document.getElementById('disclaimer-text');
+    disclaimerToggle.addEventListener('click', () => {
+        disclaimerText.classList.toggle('hidden');
+    });
+
 });

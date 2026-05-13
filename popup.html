@@ -285,6 +285,33 @@
       color: #C7C7CC;
     }
 
+    .disclaimer-link {
+      background: none;
+      border: none;
+      color: #007AFF;
+      font-size: 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      margin-top: 4px;
+      font-family: inherit;
+    }
+
+    .disclaimer-text {
+      margin-top: 6px;
+      padding: 8px;
+      background: #F2F2F7;
+      border-radius: 8px;
+      font-size: 10px;
+      color: #1C1C1E;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .disclaimer-text.hidden {
+      display: none;
+    }
+
     /* ── Dark mode ── */
     @media (prefers-color-scheme: dark) {
       body { background: #1C1C1E; color: #FFFFFF; }
@@ -301,6 +328,7 @@
       .btn-secondary { background: #3A3A3C; }
       .btn-secondary:hover { background: #48484A; }
       .footer p { color: #48484A; }
+      .disclaimer-text { background: #3A3A3C; color: #FFFFFF; }
     }
   </style>
 </head>
@@ -387,6 +415,10 @@
 
   <div class="footer">
     <p>Refresh the page to apply filter changes</p>
+    <button id="disclaimer-toggle" class="disclaimer-link">Disclaimer</button>
+    <div id="disclaimer-text" class="disclaimer-text hidden">
+      This is an unofficial third-party browser extension and is not affiliated with, endorsed by, or associated with mydealz or Pepper Media Holding GmbH. All trademarks belong to their respective owners.
+    </div>
   </div>
 
   <script src="popup.js"></script>

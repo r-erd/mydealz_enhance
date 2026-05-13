@@ -60,6 +60,12 @@ Safari wraps WebExtensions in a native macOS app. One-time setup with Xcode is r
 
 > **Note:** `safari-web-extension-converter` requires the full **Xcode app** (not just the Command Line Tools). Install Xcode from the App Store, open it once to accept the license, then run `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` before retrying.
 
+## Disclaimer
+
+This is an **unofficial, third-party browser extension**. It is **not affiliated with, endorsed by, or associated with mydealz or Pepper Media Holding GmbH** in any way.
+
+All trademarks, logos, and brand names are the property of their respective owners. The mydealz name and crocodile logo are trademarks of Pepper Media Holding GmbH and are used here with permission solely for identification purposes.
+
 ## Security / Privacy
 
 The extension has the minimum permissions required to function (`activeTab`, `scripting`, `storage`). It does not send any data to external servers, stores everything locally, and does no tracking.
